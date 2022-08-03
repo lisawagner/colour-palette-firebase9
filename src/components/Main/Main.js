@@ -1,8 +1,20 @@
-import styles from './Main.module.css'
+import { useEffect, useState } from 'react';
+import { db } from '../../firebase/firebase'
+import { onSnapshot, collection } from 'firebase/firestore';
+// components
 import Swatch from '../Swatch/Swatch'
+// styles
+import styles from './Main.module.css'
 
 
 const Main = () => {
+  const [colours, setColours] = useState([{ name: "Loading...", id: "initial"}])
+
+  console.log(colours);
+  useEffect (() =>
+    onSnapshot(collection(db, "colours"), (snapshot) => {
+      setColours(snapshot.docs.map(doc => ({...doc.data(), id: doc.id})));
+    }), [])
 
 
   const handleEdit = () => {
@@ -18,7 +30,20 @@ const Main = () => {
 
       <ul className={styles.cardsContainer}>
 
-        <li className={styles.mainCardWrap}>
+        {colours.map((colour) => (
+          <li key={colour.id} className={styles.mainCardWrap}>
+            <div className={styles.swatchDiv}>
+              <Swatch colour={colour.value} name={colour.name} />
+            </div>
+            <div className={styles.mainSwatchBtns}>
+              <button className='rainbowButton' onClick={handleEdit}>Edit</button>
+              <button className='rainbowButton' onClick={handleDelete}>Delete</button>
+            </div>
+          </li>
+
+        ))}
+
+        {/* <li className={styles.mainCardWrap}>
           <div className={styles.swatchDiv}>
             <Swatch colour="#d0f" />
           </div>
@@ -26,47 +51,7 @@ const Main = () => {
             <button className='rainbowButton' onClick={handleEdit}>Edit</button>
             <button className='rainbowButton' onClick={handleDelete}>Delete</button>
           </div>
-        </li>
-
-        <li className={styles.mainCardWrap}>
-          <div className={styles.swatchDiv}>
-            <Swatch colour="#0f0" />
-          </div>
-          <div className={styles.mainSwatchBtns}>
-            <button className='rainbowButton' onClick={handleEdit}>Edit</button>
-            <button className='rainbowButton' onClick={handleDelete}>Delete</button>
-          </div>
-        </li>
-
-        <li className={styles.mainCardWrap}>
-          <div className={styles.swatchDiv}>
-            <Swatch colour="#F00" />
-          </div>
-          <div className={styles.mainSwatchBtns}>
-            <button className='rainbowButton' onClick={handleEdit}>Edit</button>
-            <button className='rainbowButton' onClick={handleDelete}>Delete</button>
-          </div>
-        </li>
-
-        <li className={styles.mainCardWrap}>
-          <div className={styles.swatchDiv}>
-            <Swatch colour="#00f" />
-          </div>
-          <div className={styles.mainSwatchBtns}>
-            <button className='rainbowButton' onClick={handleEdit}>Edit</button>
-            <button className='rainbowButton' onClick={handleDelete}>Delete</button>
-          </div>
-        </li>
-
-        <li className={styles.mainCardWrap}>
-          <div className={styles.swatchDiv}>
-            <Swatch colour="#DD0"/>
-          </div>
-          <div className={styles.mainSwatchBtns}>
-            <button className='rainbowButton' onClick={handleEdit}>Edit</button>
-            <button className='rainbowButton' onClick={handleDelete}>Delete</button>
-          </div>
-        </li>
+        </li> */}
 
       </ul>
     </div>

@@ -1,8 +1,6 @@
 // import styles from './Swatch.module.css'
 
-import { findByLabelText } from "@testing-library/react"
-
-const Swatch = ({ colour }) => {
+const Swatch = ({ colour, name }) => {
   const style = {
     height: 200,
     width: 200,
@@ -17,7 +15,7 @@ const Swatch = ({ colour }) => {
   return (
     // {`text-white py-2 px-4 rounded ${styles[props.bgColor]}`}
     // <span className={styles.swatchShape}>
-    <span style={style}>Swatch</span>
+    <span style={style}>{name}</span>
   )
 }
 

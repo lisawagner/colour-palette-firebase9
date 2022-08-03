@@ -3,8 +3,6 @@ import { initializeApp } from "firebase/app";
 
 // Add SDKs for Firebase products that you want to use
 import { getFirestore } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -21,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Services Modules
 const db = getFirestore(app)
-const auth = getAuth(app)
-const storage = getStorage(app)
 
-export { db, auth, storage }
+
+export { db }
+// export default getFirestore();
