@@ -1,9 +1,94 @@
 .headerWrap {
   display: flex;
-  flex-direction: col;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem;
+  padding: 0 1rem;
+  margin: 1rem auto;
+  max-width: 1200px;
 
+  text-align: center;
   border-bottom: 1px solid black;
+}
+
+/* Button */
+.rainbowButton {
+  margin-bottom: 2rem;
+  border: none;
+  padding: 1em;
+  outline: none;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-style: 1.2em;
+  letter-spacing: 0.2em;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
+}
+.rainbowButton:before, .rainbowButton:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 4px;
+  transform: translateX(-50%) translateY(-50%);
+  width: 105%;
+  height: 105%;
+  content: "";
+  z-index: -2;
+  background-size: 400% 400%;
+  background: linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+}
+.rainbowButton:before {
+  filter: blur(7px);
+  transition: all 0.25s ease;
+  -webkit-animation: pulse 10s infinite ease;
+          animation: pulse 10s infinite ease;
+}
+.rainbowButton:after {
+  filter: blur(0.3px);
+}
+.rainbowButton:hover:before {
+  width: 115%;
+  height: 115%;
+}
+.rainbowButton:hover:after {
+  background: rgba(0, 0, 0, 0.84);
+}
+
+@-webkit-keyframes pulse {
+  from {
+    filter: blur(7px);
+  }
+  50% {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(7px);
+  }
+}
+
+@keyframes pulse {
+  from {
+    filter: blur(7px);
+  }
+  50% {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(7px);
+  }
+}
+
+/* MEDIA QUERIES */
+@media (min-width: 767px) {
+  .headerWrap {
+    flex-direction: row;
+    margin: 1rem auto;
+  }
+  .rainbowButton {
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+  }
 }

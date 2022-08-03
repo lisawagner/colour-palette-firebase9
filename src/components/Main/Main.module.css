@@ -1,3 +1,49 @@
 .mainWrap {
-  margin: 1rem 2rem;
+  margin: 1rem auto;
+  max-width: 1200px;
+  padding: 0 1rem 0 1rem;
+}
+
+.cardsContainer {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  
+  
+
+  flex-wrap: wrap;
+  gap: 10px;
+
+}
+.cardsContainer > li {
+  flex-basis: 235px;
+  position: relative;
+  cursor: pointer;
+}
+.cardsContainer::after {
+  content: "";
+  flex-basis: 235px;
+}
+
+.mainCardWrap {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+.swatchDiv {
+  display: flex;
+  justify-content: center;
+}
+.mainSwatchBtns {
+  display: flex;
+  column-gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }

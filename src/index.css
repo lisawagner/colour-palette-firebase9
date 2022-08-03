@@ -1,5 +1,9 @@
 body {
   margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #1D1E25;
+  color: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,4 +14,77 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/* RAINBOW BUTTON */
+.rainbowButton {
+  border: none;
+  padding: 1em;
+  outline: none;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-style: 1.2em;
+  letter-spacing: 0.2em;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
+}
+.rainbowButton:before, .rainbowButton:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 4px;
+  transform: translateX(-50%) translateY(-50%);
+  width: 105%;
+  height: 105%;
+  content: "";
+  z-index: -2;
+  background-size: 400% 400%;
+  background: linear-gradient(45deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+}
+.rainbowButton:before {
+  filter: blur(7px);
+  transition: all 0.25s ease;
+  -webkit-animation: pulse 10s infinite ease;
+          animation: pulse 10s infinite ease;
+}
+.rainbowButton:after {
+  filter: blur(0.3px);
+}
+.rainbowButton:hover:before {
+  width: 115%;
+  height: 115%;
+}
+.rainbowButton:hover:after {
+  background: rgba(0, 0, 0, 0.84);
+}
+
+@-webkit-keyframes pulse {
+  from {
+    filter: blur(7px);
+  }
+  50% {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(7px);
+  }
+}
+
+@keyframes pulse {
+  from {
+    filter: blur(7px);
+  }
+  50% {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(7px);
+  }
 }
