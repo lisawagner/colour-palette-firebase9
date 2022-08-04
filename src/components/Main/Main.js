@@ -29,8 +29,6 @@ const Main = () => {
 
   return (
     <div className={styles.mainWrap}>
-      <h1>Main</h1>
-
       <ul className={styles.cardsContainer}>
 
         {colours.map((colour) => (
