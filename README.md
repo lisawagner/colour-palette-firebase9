@@ -1,14 +1,14 @@
 # Colour Palette CRUD application
 
-This project was created with Firebase/Firestore v9 and Reactjs. Purpose for creating this application is to explore Firebase v9 Modular Syntax for web apps.
+This project was created with Firebase/Firestore v9 and Reactjs. Purpose for this application is to explore Firebase v9 Modular Syntax for web apps.
 
 ## Demo
 
-Add [demo-link](https://facebook.github.io/create-react-app/docs/running-tests) and screenshot here.
+TODO: Add [demo-link](https://facebook.github.io/create-react-app/docs/running-tests) and screenshot here.
 
 ### onSnapshot
 
-Inside a useEffect hook we use `onSnapshot` to set up listeners for changes to the database collection. useEffect is where we get the data from the database. An unsubscribe is added to unsub from this socket whenever the component unmounts:
+Inside a useEffect hook we use `onSnapshot` to set up listeners for changes to the database collection. `useEffect` is where we get the data from the database. An unsubscribe is added to unsub from this socket whenever the component unmounts:
 
 ```
   useEffect(() => {
@@ -51,13 +51,32 @@ addDoc(collectionRef, payload)
 
 ### setDoc
 
-`setDoc` allows you to write new data to your firestore database. It takes in two arguements:
+`setDoc` allows you to write new data to your firestore database. It takes in two arguments:
 
 ```
 setDoc(docRef, payload)
 ```
 
 `setDoc` completely overrides existing documents. if the document doesn't already exist, it creates a new one. Depending on your use case, you may want to consider other methods like `updateDoc`.
+
+### Edit Document Handler
+
+```
+export const handleEdit = async (id) => {
+  const name = prompt("Enter colour name: ")
+  const value = prompt("Enter colour value: ")
+
+  const docRef = doc(db, "colours", id)
+  const payload = { name, value, timestamp: serverTimestamp() }
+
+  // setDoc overrides existing doc, so updateDoc is better for this use case
+  // await setDoc(docRef, payload)
+
+  // updateDoc only changes the specific properties you indicate in your payload
+  await updateDoc(docRef, payload)
+  console.log('handleEdit for: ' + id);
+}
+```
 
 ### Query
 
