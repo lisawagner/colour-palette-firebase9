@@ -61,7 +61,7 @@ export const handleQueryDelete = async () => {
   const results = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
 
   // Using forEach vs map because we don't want to change the results array
-  // We just want to preform a delete operation on specific results
+  // We just want to perform a delete operation on specific results
   results.forEach(async result => {
     const docRef = doc(db, 'colours', result.id)
     await deleteDoc(docRef)
