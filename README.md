@@ -1,70 +1,107 @@
-# Getting Started with Create React App
+# Colour Palette CRUD application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created with Firebase/Firestore v9 and Reactjs. Purpose for creating this application is to explore Firebase v9 Modular Syntax for web apps.
 
-## Available Scripts
+## Demo
 
-In the project directory, you can run:
+Add [demo-link](https://facebook.github.io/create-react-app/docs/running-tests) and screenshot here.
 
-### `npm start`
+### onSnapshot
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Inside a useEffect hook we use `onSnapshot` to set up listeners for changes to the database collection. useEffect is where we get the data from the database. An unsubscribe is added to unsub from this socket whenever the component unmounts:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+  useEffect(() => {
+    const collectionRef = collection(db, "colours");
+    const q = query(collectionRef, orderBy("timestamp", "desc"));
 
-### `npm test`
+    const unsub = onSnapshot(q, (snapshot) =>
+      setColours(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    );
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    return unsub;
+  }, []);
+  ```
 
-### `npm run build`
+### addDoc
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We make an api call handler (with promises or async). `addDoc` tells firestore to generate an id for the newly added document. 
+```
+// api function to add new colour to db
+export const handleAdd = async () => {
+  const name = prompt("Enter colour name: ")
+  const value = prompt("Enter colour value: ")
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  const collectionRef = collection(db, "colours")
+  const payload = { name, value, timestamp: serverTimestamp() }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  // you can grab the new doc id by creating a const
+  const docRef = await addDoc(collectionRef, payload)
 
-### `npm run eject`
+  console.log("The new colours ID is: " + docRef.id);
+}
+```
+Instead of using a document reference like in `setDoc`, we use a collectionRef with `addDoc`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+setDoc(docRef, payload)
+addDoc(collectionRef, payload)
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### setDoc
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+`setDoc` allows you to write new data to your firestore database. It takes in two arguements:
 
-## Learn More
+```
+setDoc(docRef, payload)
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`setDoc` completely overrides existing documents. if the document doesn't already exist, it creates a new one. Depending on your use case, you may want to consider other methods like `updateDoc`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Query
 
-### Code Splitting
+**Query / delete multiple documents**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A basic delete handler:
 
-### Analyzing the Bundle Size
+```
+export const handleDelete = async (id) => {
+  const docRef = doc(db, "colours", id)
+  await deleteDoc(docRef)
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+A Query to delete multiple documents that have the same name:
 
-### Making a Progressive Web App
+```
+export const handleQueryDelete = async () => {
+  const userInputName = prompt("Enter colour name: ")
+  const collectionRef = collection(db, "colours")
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  // const q = query(collectionRef, actual query statements here)
+  const q = query(collectionRef, where("name", "==", userInputName))
 
-### Advanced Configuration
+  // fetch the data once (don't add listeners like w/ onSnapshot)
+  const snapshot = await getDocs(q)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+  const results = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
 
-### Deployment
+  // Using forEach vs map because we don't want to change the results array
+  // We just want to perform a delete operation on specific results
+  results.forEach(async result => {
+    const docRef = doc(db, 'colours', result.id)
+    await deleteDoc(docRef)
+  })
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Order Documents
 
-### `npm run build` fails to minify
+We set up the document listing order inside the initial useEffect using orderBy "timestamp":
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+const q = query(collectionRef, orderBy("timestamp", "desc"));
+```
+
+To do this query, it is important to have a field called timestamp: `serverTimestamp()` in your add document handler and also in your edit document handler.
