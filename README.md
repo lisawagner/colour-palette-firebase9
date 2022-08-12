@@ -130,3 +130,8 @@ const q = query(collectionRef, orderBy("timestamp", "desc"));
 ```
 
 To do this query, it is important to have a field called timestamp: `serverTimestamp()` in your add document handler and also in your edit document handler.
+
+## Tech Stack
+
+1. React | create-react-app
+2. Firebase 9 | Firestore
