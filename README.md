@@ -2,11 +2,18 @@
 
 This project was created with Firebase/Firestore v9 and Reactjs. Purpose for this application is to explore Firebase v9 Modular Syntax for web apps.
 
+## Description
+
+User can add colours by name with hexcode to view them together on the palette page. The colour swatches can be updated and deleted. There is also an example query delete function that allows the user to delete items that meet their specific query. 
+
 ## Demo
 
-TODO: Add [demo-link](https://facebook.github.io/create-react-app/docs/running-tests) and screenshot here.
+[Live Demo](https://facebook.github.io/create-react-app/docs/running-tests "live demo")
 
-### onSnapshot
+![Colour Palette Page](src/assets/palette-page.png "Colour Palette App Main Page")
+
+
+### onSnapshot()
 
 Inside a useEffect hook we use `onSnapshot` to set up listeners for changes to the database collection. `useEffect` is where we get the data from the database. An unsubscribe is added to unsub from this socket whenever the component unmounts:
 
@@ -23,7 +30,7 @@ Inside a useEffect hook we use `onSnapshot` to set up listeners for changes to t
   }, []);
   ```
 
-### addDoc
+### addDoc()
 
 We make an api call handler (with promises or async). `addDoc` tells firestore to generate an id for the newly added document. 
 ```
@@ -49,7 +56,7 @@ addDoc(collectionRef, payload)
 ```
 
 
-### setDoc
+### setDoc()
 
 `setDoc` allows you to write new data to your firestore database. It takes in two arguments:
 
