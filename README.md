@@ -10,7 +10,7 @@ User can add colours by name with hexcode to view them together on the palette p
 
 ![Colour Palette Page](src/assets/palette-page.png "Colour Palette App Main Page")
 
-[Live Demo](https://facebook.github.io/create-react-app/docs/running-tests "live demo")
+[Live Demo](https://colour-palette-builder.web.app "live demo")
 
 ### onSnapshot()
 
