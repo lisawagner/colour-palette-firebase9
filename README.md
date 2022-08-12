@@ -8,10 +8,9 @@ User can add colours by name with hexcode to view them together on the palette p
 
 ## Demo
 
-[Live Demo](https://facebook.github.io/create-react-app/docs/running-tests "live demo")
-
 ![Colour Palette Page](src/assets/palette-page.png "Colour Palette App Main Page")
 
+[Live Demo](https://facebook.github.io/create-react-app/docs/running-tests "live demo")
 
 ### onSnapshot()
 
